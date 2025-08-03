@@ -1,0 +1,46 @@
+.intercars-common-input-item {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+
+  input[name="common-input2"] {
+    width: 100%;
+    z-index: 10;
+    background-color: transparent;
+    height: 36px;
+    padding: 8px 16px;
+    border-radius: 5px;
+    outline: none;
+    border: 1px solid #9fb1c9;
+
+    &:hover {
+      display: block;
+    }
+
+    &:focus {
+      border: 1px solid #0243a6;
+    }
+
+  }
+
+  .intercars-common-input-label {
+    display: block;
+    // color: white;
+    //background-color: white;
+    position: absolute;
+    //background-color: white;
+    z-index: 1;
+    transform: translate(4px, 45%);
+    padding: 3px 16px;
+    transition: transform 0.2s ease-in-out;
+
+    &__active {
+      position: absolute;
+      background-color: white;
+      padding: 2px 8px;
+      z-index: 15;
+      transform: scale(0.8) translate(16px, -16px);
+      transition: transform 0.2s ease-in-out;
+    }
+  }
+}

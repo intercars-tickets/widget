@@ -1,0 +1,26 @@
+.intercars-gender-select-container{
+  border: 1px solid #9fb1c9;
+  border-radius: 5px;
+  width: 100px;
+  height: 52px;
+  align-content: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.intercars-gender-select-item{
+  width:50px;
+  align-self: center;
+  font-size: 1.2rem;
+  align-content: center;
+  text-align: center;
+  transition:0.75s ease-in-out;
+ // border-right:1px solid #9fb1c9;
+ height: 100%;
+  &__active{
+   @extend .intercars-gender-select-item;
+    transition:0.75s ease-in-out;
+    background-color: #0243a6;
+    color: #fff;
+  }
+}

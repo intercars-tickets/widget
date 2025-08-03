@@ -1,0 +1,314 @@
+
+.intercars-route-container {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  max-width: 1050px;
+  padding: 25px;
+  width: 100%;
+}
+
+.intercars-route-data-item-last {
+  margin-top: auto;
+}
+
+.intercars-route-main-container {
+  max-width: 1000px;
+  //align-items: self-end;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 12px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: row;
+  padding: 24px 24px 12px 24px;
+  border: 1px solid lightgrey;
+
+  &.best {
+    border: 6px solid green;
+  }
+
+  &.fastest {
+    border: 6px solid green;
+  }
+
+}
+
+.intercars-route-additional-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 24px;
+  padding: 24px;
+  border-radius: 0 0 12px 12px;
+  background-color: lighten(#caf7b7, 7);
+  border: 1px solid lightgrey;
+
+}
+
+.intercars-route-additional-info-item {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  height: 30px;
+  //align-content: end;
+
+  div[typeOf = "stopping-time"] {
+    width: 80px;
+    font-size: 1.5rem;
+    //align-self: end;
+    //padding-right: 4px;
+    //align-self: start;
+    align-self: center;
+  }
+
+  div[typeOf = "stopping-city"] {
+    font-size: 1rem;
+  }
+
+  div[typeOf = "stopping-img"] {
+    // margin-top: 0;
+    align-self: center;
+    //margin-top: 20px;
+    width: 50px;
+  }
+
+  div[typeOf = "stopping-date"] {
+    width: 80px;
+    font-size: 1rem;
+    color: #6a85ab;
+  }
+
+  div[typeOf = "stopping-name"] {
+    //width: 100px;
+    font-size: 1rem;
+    color: #6a85ab;
+  }
+
+}
+
+.intercars-route-data-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.intercars-route-data-sub-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.intercars-route-data-item {
+  flex-grow: 1;
+  max-width: 271px;
+  width: 100%;
+  display: flex;
+
+  flex-direction: column;
+  background-color: #FFFFFF;
+  padding: 4px 16px;
+
+  &__middle {
+    @extend .intercars-route-data-item;
+    align-items: center;
+  }
+
+  &__last {
+    @extend .intercars-route-data-item;
+    align-items: end;
+  }
+
+  div[typeof= "date"] {
+    text-transform: uppercase;
+    //margin-left:  auto;
+  }
+
+  div[typeof= "time"] {
+    margin-top: 10px;
+  }
+
+  div[typeof= "city"] {
+    font-size: 1.2rem;
+  }
+
+  div[typeof= "stopping"] {
+    color: #6a85ab;
+    font-size: 1rem;
+  }
+
+  div[typeof= "aggregator"] {
+    color: #6a85ab;
+    font-size: 1rem;
+  }
+
+  div[typeof= "link"] {
+    color: #0243a6;
+    cursor: pointer;
+    align-content: center;
+    // background-color: #0243a6;
+  }
+
+  div[typeof= "icons"] {
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+  }
+
+}
+
+.intercars-route-horizontal-line {
+  align-self: center;
+  margin: 10px 5px;
+  border-top: 1px solid gray;
+  width: 95%;
+}
+
+.intercars-route-price-sub-container {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  border-left: 2px dashed lightslategray;
+  max-width: 200px;
+  width: 100%;
+  align-items: end;
+
+  div[typeof= "price"] {
+    font-weight: 500;
+    font-size: 2rem;
+  }
+
+  [name="select-ticket"] {
+    margin-top: 30px;
+    margin-left: auto;
+    max-width: 160px;
+    height: 48px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+    //background: linear-gradient(130deg, #ff7e00, #ffffff, #5cff00);
+    //background-size: 100% 100%;
+    background-color:  #0243a6;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    transition: background-color 1s;
+    -webkit-transition-duration: 0.4s; /* Safari */
+
+    &:hover {
+      background-color: darken( #0243a6,15);
+      transition: background-color 1s;
+    }
+    &:active {
+      background-color: white;
+      color:#0243a6;
+      transition: background-color 0.1s;
+    }
+
+  }
+
+}
+
+.intercars-route-info-sub-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.intercars-route-info-carrier {
+  //background-color: #9fb1c9;
+  // font-size: 1rem;
+  align-content: center;
+  letter-spacing: 2px;
+}
+
+.intercars-route-info-best-offer-sub-container {
+  //font-size: 1rem;
+  margin-left: auto;
+
+}
+
+.intercars-special-label-sub-container {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  //gap:5px;
+  transform: translate(15px, -35px);
+}
+
+.special-label-item {
+  background-color: #D24A43;
+  color: #FFFFFF;
+  font-size: 14px;
+  padding: 1px 24px 1px 24px;
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 100% 100%, 0% 100%);
+
+  &.best-price {
+    background-color: #06cc85;
+    //color: white;
+  }
+
+  &.best-price {
+    background-color: #06cc85;
+    //color: white;
+  }
+
+  &.fastest {
+    background-color: #D24A43;
+    color: white;
+  }
+}
+
+.intercars-bonus-label {
+  //color: white;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  clip-path: polygon(0% 100%, 10% 0%, 100% 0%, 100% 100%, 0% 100%);
+  //background: #06cc85;
+  //background-repeat: no-repeat;
+  width: 140px;
+  margin-top: 5px;
+  margin-left: auto;
+  margin-right: -24px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  position: relative;
+}
+
+.intercars-best-offer {
+  @extend .intercars-bonus-label;
+  color: white;
+  background: #06cc85;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.intercars-bonus-ticket {
+  @extend .intercars-bonus-label;
+  color: white;
+  background: #0243a6;
+  font-style: italic;
+  font-weight: 500;
+}
+.intercars-partner-route {
+  @extend .intercars-bonus-label;
+  color: #012C6C;
+  background: #fcc900;
+  font-style: italic;
+  font-weight: 500;
+}
+.intercars-bus-route-icon {
+  position: absolute;
+  background-color: white;
+  //height: 60px;
+  padding-top: 10px;
+}
+
+
+
+

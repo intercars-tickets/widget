@@ -1,0 +1,78 @@
+.intercars-contact-user-container{
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  background-color: #FFFFFF;
+  padding: 16px 24px;
+  margin-top: 24px;
+  gap:6px;
+ //max-width: 1000px;
+}
+
+.intercars-contact-user-sub-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap:6px;
+  //max-width: 950px;
+  //width: 100%;
+
+}
+.intercars-contact-user-item{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap:10px;
+}
+.intercars-contact-user-select{
+  width: 100%;
+  border-radius: 5px;
+  //border: 1px solid #9fb1c9;
+  align-items:center ;
+  position: relative;
+
+  &::before,
+  &::after {
+    --size: 0.3rem;
+    position: absolute;
+    content: "";
+    right: 1rem;
+    pointer-events: none;
+  }
+
+  &::before {
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-bottom: var(--size) solid black;
+    top: 40%;
+  }
+
+  &::after {
+    border-left: var(--size) solid transparent;
+    border-right: var(--size) solid transparent;
+    border-top: var(--size) solid black;
+    top: 55%;
+  }
+
+
+
+  select{
+    appearance: none;
+    width: 100%;
+    font-size: 1.15rem;
+    padding: 0.675em 6em 0.675em 1em;
+    background-color: #fff;
+    border: 1px solid #caced1;
+    border-radius: 0.25rem;
+    color: #000;
+    cursor: pointer;
+    height: 54px;
+
+  }
+
+
+}
+
+
+
+
