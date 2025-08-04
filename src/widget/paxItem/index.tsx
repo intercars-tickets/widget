@@ -7,11 +7,8 @@ import {BookPassengerInfo} from "../../models/Booking/BookPassengerInfo";
 import {DocumentType} from "../../models/Routes/DocumentType";
 import {DateService} from "../../services/DateService";
 import React from "react";
-
-interface OptionType {
-    value: string;
-    label: string;
-}
+import {InputDate} from "../../components/inputDate";
+import {Tariff} from "../../models/Routes/Tariff";
 
 
 type PaxItemProps = {
@@ -22,11 +19,10 @@ type PaxItemProps = {
     passengersCitizenship: Citizenship[],
     updatePaxHandler: (value: string, type: string, index: number) => void
     docTypes: DocumentType[],
-    tariffs: OptionType[]
+    tariffs:  Tariff[]
 }
 
 export function PaxItem({
-
                             pax,
                             index,
                             paxCount,
@@ -60,29 +56,33 @@ export function PaxItem({
                             let country =
                                 passengersCitizenship.find(c => c.Name === e.target.value)
                             updatePaxHandler(country?.Abbr ?? "", "citizenship", index)
-                            console.log(e.target.value)
+                            //console.log(e.target.value)
                         }}
                     >
                         {passengersCitizenship.map((country, index) => {
-
 
                             return (<option
                                 style={country.Abbr === "BY" ? selectedSelectStyle : {}}>{country.Name}</option>)
                         })}
                     </select>
                 </div>
+
                 <div typeof="common-select">
                     <select
                         onChange={(e) => {
-                            console.log(e.target.value)
+                            let tariff = tariffs.findIndex(c => c.Name === e.target.value)
+                            updatePaxHandler(tariff.toString(), "tariff", index)
                         }}
                     >
-                        {tariffs.map((country, index) => {
-                            return (<option>{country.value}</option>)
+                        {tariffs.map((t, index) => {
+                            return (<option>{t.Name}</option>)
                         })}
                     </select>
                 </div>
-                <SelectGender gender={"male"} selectGender={(gender: "male" | "female") => {
+                <SelectGender gender={"male"} selectGender={(value: "male" | "female") => {
+
+                    updatePaxHandler(value, "gender", index)
+
                 }}/>
             </div>
             <div className="intercars-book-route-input-sub-container">
@@ -107,24 +107,17 @@ export function PaxItem({
             </div>
             <div className="intercars-book-route-input-sub-container">
                 <div typeof="common-input">
-                    <InputText2 label="Дата рождения"
-                                value={(convertDateForForm(pax.Birthdate))}
-                                placeholder="ДД-MM-ГГГГ"
-                                maxLength={10}
-                                setValue={(value) => {
-                                    updatePaxHandler(value, "birthDate", index)
-                                }}/>
+                    <InputDate setDateHandler={(date: Date | undefined) => {
+                        updatePaxHandler(convertDateForForm(date), "birthDate", index)
+                    }}/>
                 </div>
                 <div typeof="common-select">
                     <select
                         defaultValue={"Тип документа"}
                         onChange={(e) => {
                             if (e.target.value !== "Тип документа") {
-
                                 let doc = docTypes.find(doc => doc.Name === e.target.value)
                                 updatePaxHandler(doc?.Id ?? "", "docType", index)
-                                //console.log(e.target.value)
-                                console.log(e.target.value)
                             }
                         }}
                     >
@@ -144,9 +137,8 @@ export function PaxItem({
             </div>
             {(paxCount === index + 1) && <div style={{marginLeft: "auto"}}>
                 <Button title="+ Add passenger "
-                        onClick={() => quantityPaxHandler("add",0)}/>
+                        onClick={() => quantityPaxHandler("add", 0)}/>
             </div>}
         </div>
-
     </>)
 }

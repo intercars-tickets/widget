@@ -3,7 +3,7 @@ export interface BookPassengerInfo {
     LastName: string,
     MiddleName: string,
     Citizenship: string,
-    Birthdate: Date,
+    Birthdate: Date|null,
     Gender: "M"|"F",
     DocumentId: string,
     DocumentNumber: string,

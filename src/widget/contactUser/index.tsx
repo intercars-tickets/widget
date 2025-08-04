@@ -31,7 +31,7 @@ export function ContactsUser(props: ContactUserProps) {
 
     return (
         <div className='intercars-contact-user-container'>
-            <h1>Контактные данныеasdf</h1>
+            <h1>Контактные данные</h1>
             {/*<h2 >*/}
             {/*    Контактные данныеasdf*/}
             {/*</h2>*/}

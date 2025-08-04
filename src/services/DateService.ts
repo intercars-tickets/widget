@@ -19,7 +19,9 @@ export function DateService() {
 
     //Convert string from datePicker to Date
     //!  month has indexes 00..11 (00 - Jan)
-    const stringToDateFromDatePicker = (dateAsString: string): Date => {
+    const stringToDateFromDatePicker = (dateAsString: string): Date|undefined => {
+
+        if(dateAsString===undefined|| dateAsString==="" ||   dateAsString.length < 10) {return undefined}
         let array = dateAsString.split("-").map(Number);
         return new Date(array[0], array[1] - 1, array[2]);
     };
@@ -52,9 +54,9 @@ export function DateService() {
         return newValue
     }
 
-    const convertDateForForm = (date: Date): string => {
+    const convertDateForForm = (date: Date|undefined): string => {
 
-        if(date===undefined) return"";
+        if (date === undefined) return "";
         let result: string = "" + (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + "-";
         result += date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) + "-" : result += date.getMonth() + 1 + "-";
         result += date.getFullYear().toString();
@@ -62,13 +64,26 @@ export function DateService() {
         return result;
     }
 
+    const convertToDateFromForm = (value: string|undefined): Date|null => {
+
+        if (value === undefined) return null;
+        const dateArr = value.split("-");
+
+        const date = dateArr[0];
+        const month = dateArr[1];
+        const year = dateArr[2];
+        const newDate = new Date(Number(year), Number(month) - 1, Number(date));
+
+        return newDate;
+    }
 
     return {
         dateToDatePickerFormat,
         parseTimeFromDate,
         stringToDateFromDatePicker,
         convertDateForForm,
-        convertStringDateForForm
+        convertStringDateForForm,
+        convertToDateFromForm
     };
 
 }
