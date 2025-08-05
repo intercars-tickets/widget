@@ -46,4 +46,9 @@ module.exports = {
         compress: true,
         port: 4000,
     },
+    performance: {
+        hints: false,
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000,
+    }
 };
