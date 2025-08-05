@@ -13,7 +13,7 @@ export interface BookTicketRequest {
     promoCode: string,
     note: string,
     siteVersionId: number,
-    hasSubscription: true,
+    hasSubscription: boolean,
     analytics:BookAnalytics
     userId: string,
     routeId:string,

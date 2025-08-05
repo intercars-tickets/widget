@@ -15,19 +15,48 @@ type ContactUserProps = {
     emailError:string;
     currencies?: ObjPrice[];
     paySystems?:PaySystem[]
-    setCurrentCurrency:(currency:string)=>void
-    updateContactHandler:()=>{}
+    updateContactHandler:(value: string, type: string)=>void
 }
+const alfaBy:PaySystem = {
+    Currencies: [1,2], Id: "alphaBank", Name: "AlphaBank", SiteVersionId: 0
+
+}
+const alfaRu:PaySystem = {
+    Currencies: [4], Id: "alphaBank", Name: "AlphaBank", SiteVersionId: 0
+
+}
+
 export function ContactsUser(props: ContactUserProps) {
-    //const { register, watch, formState: { errors } } = useFormContext();
-
-    const [email, setEmail] = useState(props.email);
-    const [mainPhone, setMainPhone] = useState(props.phoneNumber1);
-    const [otherPhone,setOtherPhone] = useState(props.phoneNumber2);
     const [errors, setErrors,] = useState<{ [key: string]: string }>({});
+    const [currency,setCurrency] = useState(getCurrency());
+    const [paySystems, setPaySystems] = useState(getPaySystems());
 
+    //for test
     console.log(props.currencies);
+    console.log("PaymentSystems",props.paySystems);
 
+    function getCurrency(){
+        //ToDo update for other Payment system
+
+        return 1;
+    }
+
+
+
+    function getPaySystems() :PaySystem[] {
+        let result = props.paySystems?.filter((item:PaySystem) => item.Name==="AlphaBank" || item.Name==="AlfaBank");
+
+        if(currency===4){
+            result = props.paySystems?.filter((item:PaySystem) => item.Name==="AlphaBank");
+        }else{
+            result = [alfaBy]
+        }
+
+        props.updateContactHandler(currency.toString(),"currency")
+        props.updateContactHandler("alfabankby","paySystem")
+
+        return result??[alfaBy];
+    }
 
     return (
         <div className='intercars-contact-user-container'>
@@ -41,12 +70,17 @@ export function ContactsUser(props: ContactUserProps) {
             <div className='intercars-contact-user-sub-container'>
 
                 <div className="intercars-contact-user-item">
-                    <InputText2 value={email} label={"Email"} setValue={setEmail}/>
+                    <InputText2 value={props.email} label={"Email"}
+                                setValue={(value: string) => {
+                                    props.updateContactHandler(value, "email")
+                                }
+
+                                }/>
                     {/*{props.emailError && <p style={{color: "red"}}>pr</p>}*/}
                     <div className="intercars-contact-user-select">
                         <select
                             onChange={(e) => {
-                               props.setCurrentCurrency(e.target.value);
+                                props.updateContactHandler(e.target.value, '');
                             }}
                         >
                             {props.currencies?.map((tariff, index) => {
@@ -57,18 +91,30 @@ export function ContactsUser(props: ContactUserProps) {
                     <div className="intercars-contact-user-select">
                         <select
                             onChange={(e) => {
-                                props.setCurrentCurrency(e.target.value)
+                                props.updateContactHandler(e.target.value, '');
                             }}
                         >
-                            {props.paySystems?.map((paySystem, index) => {
+                            {/* ToDo add other system */}
+                            {/*{props.paySystems?.map((paySystem, index) => {*/}
+                            {/*    return (<option>{paySystem.Name}</option>)*/}
+                            {/*})}*/}
+                            {paySystems.map((paySystem, index) => {
                                 return (<option>{paySystem.Name}</option>)
                             })}
                         </select>
                     </div>
                 </div>
                 <div className="intercars-contact-user-item">
-                    <InputText2 value={mainPhone} label={"Номер телефона"} setValue={setMainPhone}/>
-                    <InputText2 value={otherPhone} label={"дополнительный номер телефона"} setValue={setOtherPhone}/>
+                    <InputText2 value={props.phoneNumber1} label={"Номер телефона"}
+                                setValue={(value: string) => {
+                                    props.updateContactHandler(value, "phone")
+                                }}
+                    />
+                    <InputText2 value={props.phoneNumber2} label={"дополнительный номер телефона"}
+                                setValue={(value: string) => {
+                                    props.updateContactHandler(value, "phone2")
+                                }}
+                    />
                 </div>
 
             </div>
@@ -81,7 +127,6 @@ export function ContactsUser(props: ContactUserProps) {
                 {/*/>*/}
                 <label>Хочу получать информацию о скидках и акционных предложениях</label>
             </div>
-
         </div>
     );
 };
