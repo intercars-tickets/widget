@@ -5,6 +5,7 @@
   background-color: white;
   border-radius: 5px;
   min-width: 271px;
+
   input[type="date"]::-webkit-calendar-picker-indicator {
     color: rgba(0, 0, 0, 0);
     opacity: 1;
@@ -14,9 +15,11 @@
     height: 20px;
     //border-width: thin;
   }
-  input{
+
+  input {
     border: none;
-    &:hover{
+
+    &:hover {
       border: none;
     }
   }
@@ -28,13 +31,11 @@
     //top: 0;
     transition: 0.2s;
     transform: scale(0.75) translateY(-85%) translateX(15px);
-    //transform: scale(0.5) translate(-12%, -100%);
     opacity: 1;
     font-size: 1rem;
     font-style: italic;
     border-radius: 5px;
-    //background-color: $primary-color;
-    background-color:  #06cc85;
+    background-color: #06cc85;
     color: white;
     padding: 2px 8px;
   }
@@ -60,24 +61,30 @@
   }
 
   input[typeof="input-text-date"] {
+
     width: 150px;
-    border: none;
-    &:hover{
+    border: 1px solid #dee2e6;
+
+    &:hover {
+      border: 1px solid #dee2e6;
+    }
+    &:focus,&:active {
+      outline: none;
       border: none;
     }
-
     &::placeholder {
       font-style: italic;
     }
-
   }
+
   input[typeof ="input-date-picker"] {
     margin-right: 2px;
     margin-left: auto;
 
     color: black;
   }
-  [typeof = "close-img"]{
+
+  [typeof = "close-img"] {
     margin-right: 2px;
     margin-left: auto;
     color: black;

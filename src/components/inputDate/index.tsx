@@ -20,7 +20,6 @@ export function InputDate({inputDate, dateLabel, setDateHandler}: InputDateProps
     const parseDateHandler = (inputDate: string) => {
 
         if (inputDate.length === 8) {
-            //move to dateService
             const date = inputDate.substring(0, 2);
             const month = inputDate.substring(2, 4);
             const year = inputDate.substring(4, 8);
@@ -48,14 +47,9 @@ export function InputDate({inputDate, dateLabel, setDateHandler}: InputDateProps
             setDate(newDate);
             setTextDate(convertDateForForm(newDate));
             setDateHandler(newDate);
-            // console.log("Date:", newDate.toISOString());
-            // console.log("text date", newDate.toISOString());
         }
         if (value.length === 10 && regDatePicker.test(value)) {
-            //console.log("Date 10", value);
-
             const dateArr = value.split("-");
-
             const date = dateArr[0];
             const month = dateArr[1];
             const year = dateArr[2];
@@ -63,10 +57,7 @@ export function InputDate({inputDate, dateLabel, setDateHandler}: InputDateProps
             setDate(newDate);
             setTextDate(convertDateForForm(newDate));
             setDateHandler(newDate);
-            // console.log("Date:", newDate.toISOString());
-            // console.log("text date", newDate.toISOString());
         }
-        //ToDo uupfsdate
         if (value.length > 8) {
             setDate(undefined);
             setShowError(true);
@@ -75,7 +66,6 @@ export function InputDate({inputDate, dateLabel, setDateHandler}: InputDateProps
 
     //The  date is presented in a DatePicker Format {YYYY-MM-DD}
     const setDateByDatePicker = (date: string) => {
-        //setInputTextDate("")
         const regDate = new RegExp("[0-9]{4}(\\W)[0-9]{2}(\\W)[0-9]{2}");
 
         if (regDate.test(date)) {
@@ -90,24 +80,13 @@ export function InputDate({inputDate, dateLabel, setDateHandler}: InputDateProps
     }
 
     const clearDate = () => {
-        // setInputTextDate("");
         setDateHandler(undefined);
-        //new
         setDate(undefined);
         setTextDate("")
     }
     useEffect(() => {
-        // setInputTextDate(inputDateISO !== "" ? new Date(inputDateISO!).toDateString() : "")
 
     }, [inputDate]);
-
-    // useEffect(() => {
-    //     if(inputTextDate.length===8){
-    //         parseDateHandler(inputTextDate)
-    //     }
-    //
-    // }, [inputTextDate]);
-
 
     return (
         <div className='input-date-component-container'>

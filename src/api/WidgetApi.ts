@@ -19,7 +19,8 @@ import { BookingRouteInfo } from "../models/Routes/BookingRouteInfo";
 import {CreateTicketRequest} from "../models/Booking/CreateTicketRequest";
 
 export function WidgetApi() {
-    const env = 'development'
+    // const env = 'development'
+    const env ="staging"
 
     /**
      * POST method for searchCities
@@ -271,9 +272,9 @@ export function WidgetApi() {
 
 
     function getHost() {
-        if(env==="development"){
-            return "https://localhost:44363";
-        }
+        // if(env==="development"){
+        //     return "https://localhost:44363";
+        // }
         if(env==="staging"){
             return "https://testapi.intercars.ru"
         }else{

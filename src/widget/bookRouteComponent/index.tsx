@@ -68,9 +68,9 @@ export function BookRouteComponent({searchId, routeInfo}: BookRouteProps) {
     const [passengers, setPassengers] = useState<BookPassengerInfo[]>([defaultPassenger]);
     const [selectedPlaces, setSelectedPlaces] = useState<IntercarsPlace[]>([]);
     const [errors, setErrors] = useState<BookError>(defaultErrorState);
-    const [phoneNumber, setPhoneNumber] = useState("+375293763552");
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [phoneNumberTwo, setPhoneNumberTwo] = useState("");
-    const [clientEmail, setClientEmail] = useState("hinkevich@gmail.com");
+    const [clientEmail, setClientEmail] = useState("");
     const [extraBaggage, setExtraBaggage] = useState(0);
     const [currentCurrency, setCurrentCurrency] = useState<number>(0)
     const [paysystem,setPaySystem] = useState<string>("alfabankby");

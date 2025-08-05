@@ -60,8 +60,5 @@ export function Button(props: ButtonProps) {
                     }}
             >{props.title}
             </button>
-
-
-
     );
 }
