@@ -18,6 +18,7 @@ type RouteItemProps = {
 
 export function RouteItem({route,bookRoute}: RouteItemProps) {
 
+    //console.log("RouteItem ", route)
     // const {parseTimeFromDate} =DateService()
     const [showAdditional, setShowAdditional] = useState(false);
 
@@ -42,7 +43,7 @@ export function RouteItem({route,bookRoute}: RouteItemProps) {
                             <div className="intercars-route-data-item__middle">
                                 <div style={{zIndex:"100"}}>{routeDuration}</div>
                                 <div><DirectionIcon/></div>
-                                <div className="intercars-bus-route-icon"><BusIcon iconSize="50px"/></div>
+                                {/*<div className="intercars-bus-route-icon"><BusIcon iconSize="50px"/></div>*/}
                             </div>
                             <div className="intercars-route-data-item__last">
                                 <div typeof="date">{route.DateArrive}</div>
@@ -75,14 +76,15 @@ export function RouteItem({route,bookRoute}: RouteItemProps) {
                                 <div className="intercars-route-data-item__middle">
                                 </div>
                                 <div className="intercars-route-data-item__last">
-                                    <div typeof="icons">
+                                    <div>{route.BusOptions===null}</div>
+                                    {route.BusOptions && <div typeof="icons">
                                         <WifiIcon iconSize="24px"/>
                                         {route.BusOptions.some(opt => opt.Name === "IsUSB") &&
                                             <UsbIcon iconSize="24px"/>}
                                         {route.BusOptions.some(opt => opt.Name === "IsBaggage") &&
                                             <SuitCaseIcon iconSize="24px"/>}
                                         <AirConditionerIcon iconSize="24px"/>
-                                    </div>
+                                    </div>}
                                 </div>
                             </div>
                         </div>

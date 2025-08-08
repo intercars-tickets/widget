@@ -1,3 +1,5 @@
+//@import "../../scss/media.scss";
+
 input[name='last']::-webkit-calendar-picker-indicator {
   padding-left:75px;
 }
@@ -265,4 +267,6 @@ $main-color:#ffffff;
     box-shadow: .2em -.2em 0 0 currentcolor;
   }
 }
+
+
 

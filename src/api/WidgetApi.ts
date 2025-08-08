@@ -1,9 +1,3 @@
-//import {axiosInstance} from "./AxiosInstance";
-import {
-    MAIN_API_HOSTNAME,
-    MAIN_API_HOSTNAME_LOCAL,
-    ROUTE_AUTH_REGISTER
-} from "../constants/routeConstants/ApiRouteConstants";
 import {SearchRouteRequest} from "../models/Routes/SearchRoutesRequest";
 import {SearchCityRequest} from "../models/Routes/SearchCityRequest";
 import {ApiResponse} from "../models/ApiResponse";
@@ -18,24 +12,22 @@ import {GetRouteRequest} from "../models/Routes/GetRouteRequest";
 import { BookingRouteInfo } from "../models/Routes/BookingRouteInfo";
 import {CreateTicketRequest} from "../models/Booking/CreateTicketRequest";
 
-export function WidgetApi() {
-    // const env = 'development'
-    const env ="staging"
 
+
+export function WidgetApi() {
+
+    const enviroment : "test"|"localhost"|"development"|"production"= "test"
+    //const enviroment : "test"|"localhost"|"development"|"production"= "localhost"
     /**
-     * POST method for searchCities
+     * POST method for se
+     * archCities
      * @param {RegisterUserRequest} request - request data
-     * @return {Promise<AxiosResponse<any>>} response with user info
+     * @return {Promise<ApiResponse<City>>} response with user info
      */
     const searchCity = async (request: SearchCityRequest): Promise<ApiResponse<City>> => {
 
-
-        let env = 'staging'
-
-
-
        let result : ApiResponse<City>;
-        const response =await fetch(getHost() + "/api/v1/cities/find", {
+        const response =await fetch(getHost(enviroment) + "/api/v1/cities/find", {
             //mode: "no-cors",
             method: "POST",
             headers: {
@@ -103,17 +95,16 @@ export function WidgetApi() {
 
     }
 
-
     /**
      * POST method for signup
      * @param {RegisterUserRequest} request - request data
-     * @return {Promise<AxiosResponse<any>>} response with user info
+     * @return {Promise<SearchRouteResponse>} response with user info
      */
     const searchRoutes = async (request: SearchRouteRequest): Promise<SearchRouteResponse> => {
 
         let result :SearchRouteResponse;
 
-        const response = await fetch(getHost() + "/api/v1/routes/search", {
+        const response = await fetch(getHost(enviroment) + "/api/v1/routes/search", {
             //mode: "no-cors",
             method: "POST",
             headers: {
@@ -139,13 +130,13 @@ export function WidgetApi() {
     /**
      * POST method for signup
      * @param {RegisterUserRequest} request - request data
-     * @return {Promise<AxiosResponse<any>>} response with user info
+     * @return {Promise<BookingRouteInfo>} response with user info
      */
     const getRouteInfo = async (request: GetRouteRequest): Promise<BookingRouteInfo> => {
 
         let result: BookingRouteInfo;
 
-        const response = await fetch(getHost() + "/api/v1/routes/getRoute", {
+        const response = await fetch(getHost(enviroment) + "/api/v1/routes/getRoute", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -164,7 +155,7 @@ export function WidgetApi() {
 
     const getTariffs = async (request: TariffInfoRequest): Promise<ApiResponse<Tariff>> => {
 
-        const response = await fetch(getHost() + "/api/v1/routes/getTariffs", {
+        const response = await fetch(getHost(enviroment) + "/api/v1/routes/getTariffs", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -182,7 +173,7 @@ export function WidgetApi() {
     const bookRoute = async (request: BookingRouteRequest): Promise<ApiResponse<any>> => {
 
         let result :any;
-        const response =await fetch(getHost() + "/api/v1/tickets/booking", {
+        const response =await fetch(getHost(enviroment) + "/api/v1/tickets/booking", {
             //mode: "no-cors",
             method: "POST",
             headers: {
@@ -208,8 +199,7 @@ export function WidgetApi() {
 
     const createTickets = async (request: CreateTicketRequest) => {
 
-
-        const response = await fetch("https://localhost:44363" + "/api/v1/tickets/widget/create", {
+        const response = await fetch(getHost(enviroment)+ "/api/v1/tickets/widget/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -235,19 +225,12 @@ export function WidgetApi() {
         return obj;
     }
 
-    // const searchCityAxios = async (request: SearchCityRequest) => {
-    //     const response = await axiosInstance.post<ApiResponse<City>>(ROUTE_AUTH_REGISTER, request);
-    //     console.log(response.data);
-    //     return response.data;
-    // };
-
     const bookTickets = async (request:BookTicketRequest) => {
 
-
-        const response = await fetch(getHost() + "/api/v1/tickets/booking", {
+        const response = await fetch(getHost(enviroment) + "/api/v1/tickets/widget/booking", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(request)
 
@@ -270,12 +253,12 @@ export function WidgetApi() {
         return  obj;
     }
 
-
-    function getHost() {
-        // if(env==="development"){
-        //     return "https://localhost:44363";
-        // }
-        if(env==="staging"){
+    function getHost(env: "test"|"localhost"|"development"|"production") {
+        //switch (e)
+        if(env === "localhost"){
+            return "https://localhost:44363";
+        }
+        if(env === "test"){
             return "https://testapi.intercars.ru"
         }else{
             return "https://localhost:44363";}

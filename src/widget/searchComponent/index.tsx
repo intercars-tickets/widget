@@ -273,7 +273,7 @@ export function SearchComponent(props: SearchComponentProps) {
                     {!isSearching ?
                         <button className="search-button" type="button" onClick={() => runSearchHandler()}>Найти
                             билеты</button> :
-                        <div className="loader">Search</div>}
+                        <div className="loader"></div>}
                 </div>
             </div>
         </div>

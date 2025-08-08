@@ -14,6 +14,7 @@ import {BookTicketRequest} from "../../models/Booking/BookTicketRequest";
 import {BookingRouteInfo} from "../../models/Routes/BookingRouteInfo";
 import React from "react";
 import {PaxItem} from "../paxItem";
+import {WidgetSections} from "../../models/enums/WidgetSections";
 
 interface Passenger {
     firstName: string;
@@ -29,6 +30,8 @@ type BookRouteProps = {
     routeInfo: BookingRouteInfo
     route?: CommonRoute
     searchId: string
+    setActiveSection: (section: WidgetSections ) => void
+    setPaymentUrl: (url: string) => void
 }
 
 const defaultPassenger: BookPassengerInfo = {
@@ -61,7 +64,7 @@ type Currency = {
 }
 
 
-export function BookRouteComponent({searchId, routeInfo}: BookRouteProps) {
+export function BookRouteComponent({searchId, routeInfo, setPaymentUrl,setActiveSection}: BookRouteProps) {
     const {bookRoute, getTariffs, bookTickets} = WidgetApi();
     const {convertDateForForm, convertStringDateForForm} = DateService();
     const {validateEmail} = ValidateService();
@@ -75,6 +78,7 @@ export function BookRouteComponent({searchId, routeInfo}: BookRouteProps) {
     const [currentCurrency, setCurrentCurrency] = useState<number>(0)
     const [paysystem,setPaySystem] = useState<string>("alfabankby");
     const [hasSubscription, setHasSubscription] = useState<boolean>(false);
+    const [isBooking, setIsBooking] = useState(false);
 
     const {convertToDateFromForm}=DateService();
 
@@ -152,9 +156,15 @@ export function BookRouteComponent({searchId, routeInfo}: BookRouteProps) {
 
 
         const response = await bookTickets(request);
+        setIsBooking(false)
 
         if (response.Result.result.Response !== null) {
-            window.location.href = response.Result.result.Response;
+
+            setPaymentUrl(response.Result.result.Response)
+            setActiveSection(WidgetSections.RedirectInfo)
+
+            //old approacj
+            //window.location.href = response.Result.result.Response;
         } else {
             console.log("cannot redirecct")
         }
@@ -362,12 +372,23 @@ export function BookRouteComponent({searchId, routeInfo}: BookRouteProps) {
                                   currencies={routeInfo.Result.Route?.Price}
                                   paySystems={routeInfo.Result.PaySystems}
                                   updateContactHandler={updateContactInfo}/>
-                    <button type="button"
-                            onClick={async () => {
-                                await bookHandler();
-                            }}
-                            style={{width: "150px", height: "56px", backgroundColor: "#0243a6", color: "white"}}>Book
-                    </button>
+
+                    {!isBooking ?
+                        <button type="button"
+                                onClick={async () => {
+                                    setIsBooking(true)
+                                    await bookHandler();
+                                }}
+                                style={{
+                                    width: "150px",
+                                    height: "56px",
+                                    backgroundColor: "#0243a6",
+                                    color: "white"
+                                }}>Book
+                        </button> :
+                        <div className="loader"></div>}
+
+
                     <Button title="Book" onClick={() => {
                         console.log("PaxDate", passengers[0]);
                         console.log("CurrentCurrency", currentCurrency);

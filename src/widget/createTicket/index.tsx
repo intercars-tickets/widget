@@ -53,10 +53,6 @@ export function CreateTicket(props: CreateTicketProps) {
             setComponentStatus(CreateTicketStatus.Creating)
         }
 
-
-
-
-
     }
 
 
@@ -102,7 +98,8 @@ export function CreateTicket(props: CreateTicketProps) {
                         <div>Скачать билет</div>
                         <div>Отправить на почту</div>
                         <button onClick={() => {
-                            window.location.replace("http://localhost:3000/whitelabel/example")
+                            let location = window.location.origin;
+                            window.location.replace(location)
                         }}>New Search
                         </button>
                     </div>

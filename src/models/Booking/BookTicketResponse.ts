@@ -10,5 +10,5 @@ export interface BookTicketResponse {
             Success:boolean
             Url:string|null
         }
-    }
+    }|null
 }

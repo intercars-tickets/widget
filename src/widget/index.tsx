@@ -1,6 +1,6 @@
 import "./style.scss";
 import {SearchComponent} from "./searchComponent";
-import {useEffect, useState} from "react";
+import {use, useEffect, useState} from "react";
 import {RouteItem} from "./RouteItem";
 import {WidgetApi} from "../api/WidgetApi";
 import {City} from "../models/Routes/City";
@@ -15,14 +15,17 @@ import "./style.scss";
 import {BookingRouteInfo} from "../models/Routes/BookingRouteInfo";
 import {GetRouteRequest} from "../models/Routes/GetRouteRequest";
 import {CreateTicket} from "./createTicket";
+import {RedirectInfo} from "./redirectInfo";
+import {WidgetSections} from "../models/enums/WidgetSections";
 
-enum WidgetSections {
-    Search = 0,
-    Book = 1 << 0,//0001
-    CreateTicket
-    // Book
-
-}
+// enum WidgetSections {
+//     Search = 0,
+//     Book = 1 << 0,//0001
+//     CreateTicket,
+//     RedirectInfo = 3
+//     // Book
+//
+// }
 
 type WidgetErrors = {
     cityFromError: string;
@@ -30,16 +33,13 @@ type WidgetErrors = {
     dateFromError: string;
 }
 
-
 export function Widget() {
     const [activeSection, setActiveSection] = useState<WidgetSections>(WidgetSections.Search);
-    const [cityFrom, setCityFrom] = useState<City>();
-    const [cityTo, setCityTo] = useState<City>();
-    //const [departureDateIso, setDepartureDateIso] = useState("");
     const [departureDate, setDepartureDate] = useState<Date>(new Date());
     const [searchRouteId, setSearchRouteId] = useState("");
     const [foundRoutes, setFoundRoutes] = useState<CommonRoute[]>([]);
     const [activeRoute, setActiveRoute] = useState<BookingRouteInfo>();
+    const [paymentUrl, setPaymentUrl] = useState("");
 
     const [isSearching, setIsSearching] = useState(false);
     const [errors, setErrors] = useState<WidgetErrors>({dateFromError: "", cityFromError: "", cityToError: ""});
@@ -116,6 +116,9 @@ export function Widget() {
         }
 
     }, [activeSection]);
+    useEffect(()=>{
+
+    }, [activeSection])
 
 
 
@@ -128,6 +131,10 @@ export function Widget() {
             </button>
             <button onClick={() => {
                 setActiveSection(WidgetSections.Search)
+            }}>Search
+            </button>
+            <button onClick={() => {
+                setActiveSection(WidgetSections.RedirectInfo)
             }}>Search
             </button>
 
@@ -148,6 +155,8 @@ export function Widget() {
             {/*{errors &&errors["dateFromError"] && <p>{errors["cityFromError"]}</p>}*/}
             {/*{errors && errors["cityToError"] && <p>{errors["cityToError"]}</p>}*/}
 
+            //
+            <div>FoundRoutes {foundRoutes.length}</div>
 
             {activeSection === WidgetSections.Search && foundRoutes && foundRoutes.length > 0 && foundRoutes.map(route => {
                 return (<RouteItem route={route} bookRoute={selectRouteHandler}/>)
@@ -155,7 +164,9 @@ export function Widget() {
 
 
             {activeSection === WidgetSections.Book && activeRoute !== undefined &&
-                <BookRouteComponent searchId={searchRouteId} routeInfo={activeRoute}/>}
+                <BookRouteComponent searchId={searchRouteId} routeInfo={activeRoute} setActiveSection={setActiveSection} setPaymentUrl={setPaymentUrl}/>}
+
+            {activeSection === WidgetSections.RedirectInfo && <RedirectInfo paymentUrl={paymentUrl}/>}
 
             {activeSection === WidgetSections.CreateTicket &&
                 <CreateTicket itemNumber={urlParams.get("itemNumber") ?? ""} setActiveSection={() => {
