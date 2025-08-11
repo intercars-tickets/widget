@@ -63,7 +63,7 @@ export function PaxItem({
         if (errors?.some(err => err.index === index && err.type === "docType")) {
             setHasDocTypeErr(true);
         }
-        if (errors?.some(err => err.index === index && err.type === "docNumber")) {
+        if (errors?.some(err => err.index === index && err.type === "documentNumber")) {
             setHasDocNumberErr(true);
         }
 
@@ -138,7 +138,7 @@ export function PaxItem({
                     <div className="error-msg">
                         {hasLastNameErr
                             ? errors?.find(err => err.index === index && err.type === "lastName")?.message
-                            : " asdf"
+                            : " "
                         }
                     </div>
                     <InputText2 label="Фамилия" value={pax.LastName}
@@ -180,7 +180,7 @@ export function PaxItem({
                 <div typeof="common-input">
                     <div className="error-msg">
                         {hasBirthDateErr
-                            ? paxErrors.find(err => err.type)?.message
+                            ? errors.find(err => err.type==="birthDate")?.message
                             : " "
                         }
                     </div>
@@ -221,17 +221,16 @@ export function PaxItem({
                 <div typeof="common-input">
                     <div className="error-msg">
                         {hasDocNumberErr
-                            ? errors?.find(err => err.index === index && err.type === "docNumber")?.message
+                            ? errors?.find(err => err.index === index && err.type === "documentNumber")?.message
                             : " "
                         }
                     </div>
                     <InputText2 label="Номер документа" value={pax.DocumentNumber}
                                 setValue={(value) => {
-                                    updatePaxHandler(value, "docNumber", index)
+                                    updatePaxHandler(value, "documentNumber", index)
                                     if (hasDocNumberErr) {
                                         setHasDocNumberErr(false)
-                                        updateErrors(errors.filter(err => err.index === index && err.type !== "docNumber"));
-
+                                        updateErrors(errors.filter(err => err.index === index && err.type !== "documentNumber"));
                                     }
                                 }}/>
                 </div>
