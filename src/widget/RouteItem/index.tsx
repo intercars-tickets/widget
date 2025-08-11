@@ -76,7 +76,6 @@ export function RouteItem({route,bookRoute}: RouteItemProps) {
                                 <div className="intercars-route-data-item__middle">
                                 </div>
                                 <div className="intercars-route-data-item__last">
-                                    <div>{route.BusOptions===null}</div>
                                     {route.BusOptions && <div typeof="icons">
                                         <WifiIcon iconSize="24px"/>
                                         {route.BusOptions.some(opt => opt.Name === "IsUSB") &&

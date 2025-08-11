@@ -38,17 +38,25 @@
   }
 
 }
+@mixin error-msg-common {
+  padding: 4px 0 14px 2px;
+  color: red;
+  height: 14px;
+}
 
 .intercars-book-route-input-sub-container {
   display: flex;
   flex-direction: row;
   gap: 6px;
-  padding: 16px 16px;
+  padding: 0 16px;
   width: 100%;
   //justify-content: space-between;
   //padding: 12px 10px 8px 10px;
 
   div[typeof = "common-select"] {
+    .error-msg{
+      @include error-msg-common;
+    }
     max-width: 271px;
     width: 100%;
     border-radius: 5px;
@@ -58,28 +66,27 @@
 
     &::before,
     &::after {
-      --size: 0.3rem;
+      --size: 0.31rem;
       position: absolute;
       content: "";
       right: 1rem;
       pointer-events: none;
+      margin-top: 10px;
     }
 
     &::before {
       border-left: var(--size) solid transparent;
       border-right: var(--size) solid transparent;
       border-bottom: var(--size) solid black;
-      top: 40%;
+      top: 50%;
     }
 
     &::after {
       border-left: var(--size) solid transparent;
       border-right: var(--size) solid transparent;
       border-top: var(--size) solid black;
-      top: 55%;
+      top: 60%;
     }
-
-
 
     select{
       appearance: none;
@@ -131,6 +138,12 @@
 div[typeof="common-input"] {
   max-width: 271px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  //gap: 6px;
+  .error-msg{
+    @include error-msg-common;
+  }
 
 }
 
@@ -188,7 +201,7 @@ div[typeof="common-input"] {
   flex-direction: column;
   border-radius: 12px;
   background-color: #FFFFFF;
-  padding: 16px 24px;
+  padding: 8px 24px;
 }
 .intercars-book-route-passenger-number-item {
   display: flex;

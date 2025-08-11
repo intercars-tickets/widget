@@ -92,6 +92,13 @@ export function Widget() {
         const response = await searchRoutes(request)
         console.log("Search route Response ExamplePage", response)
 
+        //ToDo show Message
+        if(response.Result === undefined) {
+
+            console.log("SearchRouteHandler",response.Error)
+            setIsSearching(false);
+            return;
+        }
 
         setIsSearching(false);
         setSearchRouteId(response.Result!.Id);
@@ -174,6 +181,7 @@ export function Widget() {
             {/*<div style={{paddingTop:"16px"}}><RouteItem/></div>*/}
 
             {/*<button onClick={searchRoutesHandler}>Search</button>*/}
+            <RedirectInfo paymentUrl={""}/>
         </div>
 
 

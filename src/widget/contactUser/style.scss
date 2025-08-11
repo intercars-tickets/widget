@@ -9,6 +9,15 @@
  //max-width: 1000px;
 }
 
+.intercars-contact-user-info{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-weight: 400;
+  font-size: 18px;
+  //color: red;
+}
+
 .intercars-contact-user-sub-container{
   display: flex;
   flex-direction: row;
@@ -16,6 +25,9 @@
   gap:6px;
   //max-width: 950px;
   //width: 100%;
+  .intercars-error-msg{
+    color: red;
+  }
 
 }
 .intercars-contact-user-item{

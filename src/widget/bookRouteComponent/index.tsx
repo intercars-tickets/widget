@@ -15,6 +15,8 @@ import {BookingRouteInfo} from "../../models/Routes/BookingRouteInfo";
 import React from "react";
 import {PaxItem} from "../paxItem";
 import {WidgetSections} from "../../models/enums/WidgetSections";
+import {WidgetError} from "../../models/WidgetError";
+import Timer from "../../components/timer/Timer";
 
 interface Passenger {
     firstName: string;
@@ -64,34 +66,27 @@ type Currency = {
 }
 
 
-export function BookRouteComponent({searchId, routeInfo, setPaymentUrl,setActiveSection}: BookRouteProps) {
+export function BookRouteComponent({searchId, routeInfo}: BookRouteProps) {
     const {bookRoute, getTariffs, bookTickets} = WidgetApi();
     const {convertDateForForm, convertStringDateForForm} = DateService();
-    const {validateEmail} = ValidateService();
+    const {validateEmail,validateBookRequest} = ValidateService();
     const [passengers, setPassengers] = useState<BookPassengerInfo[]>([defaultPassenger]);
     const [selectedPlaces, setSelectedPlaces] = useState<IntercarsPlace[]>([]);
-    const [errors, setErrors] = useState<BookError>(defaultErrorState);
-    const [phoneNumber, setPhoneNumber] = useState("");
+    //const [errors, setErrors] = useState<BookError>(defaultErrorState);
+    const [phoneNumber, setPhoneNumber] = useState("+375293763552");
     const [phoneNumberTwo, setPhoneNumberTwo] = useState("");
-    const [clientEmail, setClientEmail] = useState("");
+    const [clientEmail, setClientEmail] = useState("hinkevich@gmail.com");
     const [extraBaggage, setExtraBaggage] = useState(0);
     const [currentCurrency, setCurrentCurrency] = useState<number>(0)
     const [paysystem,setPaySystem] = useState<string>("alfabankby");
     const [hasSubscription, setHasSubscription] = useState<boolean>(false);
-    const [isBooking, setIsBooking] = useState(false);
+    const [errors, setErrors] = useState<WidgetError[]>([]);
 
     const {convertToDateFromForm}=DateService();
+    //console.log(routeInfo.Result.Route?.Id)
+    //console.log(searchId)
 
     const userId = 'd02ae181-c17a-42e1-97be-e791cb20dd4b';
-
-    const validateHandler = () => {
-        //validateEmail
-        const isValidEmail = validateEmail(clientEmail);
-        if (!isValidEmail) {
-            setErrors({...errors, emailError: "Неправильный формат Email."})
-        }
-    }
-
 
     const mapPassengers = (passengers: Passenger) => {
     }
@@ -121,9 +116,10 @@ export function BookRouteComponent({searchId, routeInfo, setPaymentUrl,setActive
             }));
         return (currencies);
     }
-
     //bookTickets
     const bookHandler = async () => {
+        setErrors([]);
+
         let request: BookTicketRequest = {
             analytics: {
                 GoogleClientId: "",
@@ -149,32 +145,33 @@ export function BookRouteComponent({searchId, routeInfo, setPaymentUrl,setActive
         }
         let tarif = routeInfo.Result.Route.Price.find(p => p.Currency === currentCurrency);
 
-
         request.passengers.forEach((passenger) => {
             passenger.TarifId = tarif?.Currency ?? routeInfo.Result.Route.Price[0].Currency;
         })
 
+        let validateErrors = validateBookRequest(request);
 
-        const response = await bookTickets(request);
-        setIsBooking(false)
-
-        if (response.Result.result.Response !== null) {
-
-            setPaymentUrl(response.Result.result.Response)
-            setActiveSection(WidgetSections.RedirectInfo)
-
-            //old approacj
-            //window.location.href = response.Result.result.Response;
-        } else {
-            console.log("cannot redirecct")
+        if (validateErrors!==undefined && validateErrors?.length > 0) {
+            setErrors(validateErrors);
+            console.log("validateErrors", validateErrors);
+            return;
         }
 
-        console.log('BookRouteResponse', response)
+
+        const response = await bookTickets(request);
+
+        if (response.Result.result.Response !== null) {
+            window.location.href = response.Result.result.Response;
+        } else {
+            // console.log("cannot redirecct")
+        }
+
+        // console.log('BookRouteResponse', response)
     }
 
     //add or remove additional passenger
     const quantityPassHandler = (action: string, index: number = 0) => {
-        console.log("Add [passenger}")
+        //console.log("Add [passenger}")
 
         if (action === "add") {
             //setOldPassengers([...oldPassengers, defaultOldPassenger]);
@@ -182,8 +179,7 @@ export function BookRouteComponent({searchId, routeInfo, setPaymentUrl,setActive
             //console.log("count pax", oldPassengers.length)
         }
         if (action === "remove") {
-
-           //// setOldPassengers(oldPassengers.filter((_, i) => i !== index));
+            //setOldPassengers(oldPassengers.filter((_, i) => i !== index));
             setPassengers(passengers.filter((_, i) => i !== index));
         }
     }
@@ -322,7 +318,8 @@ export function BookRouteComponent({searchId, routeInfo, setPaymentUrl,setActive
                 {/*Info row*/}
                 <div className="intercars-book-route-info-sub-container__wide">
                     <div typeof="main-direction">{routeInfo.Result.Route?.Route} </div>
-                    <div typeof="timer"> Врем оформления заказа</div>
+                    {/*<div typeof="timer"> Врем оформления заказа </div>*/}
+                    <Timer isTicketPage={true}/>
                 </div>
                 {/*Departure, arrive Info row*/}
                 <div className="intercars-book-route-info-sub-container__wide">
@@ -349,6 +346,8 @@ export function BookRouteComponent({searchId, routeInfo, setPaymentUrl,setActive
                     <div style={{gap: "6px"}}>
                         {passengers && passengers.map((passenger, index) => {
                             return (<PaxItem
+                                    errors={errors}
+                                    updateErrors={setErrors}
                                     paxCount={passengers.length}
                                     index={index}
                                     pax={passenger}
@@ -365,36 +364,26 @@ export function BookRouteComponent({searchId, routeInfo, setPaymentUrl,setActive
                     <BusTicket busPlaces={sortedArrays} countUser={passengers.length}
                                handlePlaceSelection={setSelectedPlaces}/>
                     {/*{errors.emailError && <p>{errors.emailError}</p>}*/}
-                    <ContactsUser emailError={errors.emailError}
+                    <ContactsUser errors={errors}
+                                  updateErrors={setErrors}
                                   email={""}
                                   phoneNumber1={phoneNumber}
                                   phoneNumber2={phoneNumberTwo}
                                   currencies={routeInfo.Result.Route?.Price}
                                   paySystems={routeInfo.Result.PaySystems}
-                                  updateContactHandler={updateContactInfo}/>
-
-                    {!isBooking ?
-                        <button type="button"
-                                onClick={async () => {
-                                    setIsBooking(true)
-                                    await bookHandler();
-                                }}
-                                style={{
-                                    width: "150px",
-                                    height: "56px",
-                                    backgroundColor: "#0243a6",
-                                    color: "white"
-                                }}>Book
-                        </button> :
-                        <div className="loader"></div>}
-
-
-                    <Button title="Book" onClick={() => {
-                        console.log("PaxDate", passengers[0]);
-                        console.log("CurrentCurrency", currentCurrency);
-                        console.log("PhoneNumber", phoneNumber);
-                        console.log("email", clientEmail)
-                        console.log("emcurrencyl", currentCurrency)
+                                  updateContactHandler={updateContactInfo} />
+                    <button type="button"
+                            onClick={async () => {
+                                await bookHandler();
+                            }}
+                            style={{width: "150px", height: "56px", backgroundColor: "#0243a6", color: "white"}}>Book
+                    </button>
+                    <Button title="Book" onClick={()=>{
+                        console.log("PaxDate",passengers[0]);
+                        console.log("CurrentCurrency",currentCurrency);
+                        console.log("PhoneNumber",phoneNumber);
+                        console.log("email",clientEmail)
+                        console.log("emcurrencyl",currentCurrency)
                     }}/>
                 </form>
             </div>

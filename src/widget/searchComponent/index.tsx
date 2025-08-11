@@ -112,8 +112,7 @@ export function SearchComponent(props: SearchComponentProps) {
         console.log("run search searchComponet", departureDate)
 
         setIsSearching(true);
-        const response = await props.runSearch(request);
-        console.log('search response', response)
+        await  props.runSearch(request);
         setIsSearching(false);
     }
 
