@@ -1,10 +1,7 @@
 import "./style.scss";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {InputText2} from "../../components/inputText2";
-//import {InputText} from "../../components/inputText";
-import {TariffInfoRequest} from "../../models/Booking/TariffInfoRequest";
 import {ObjPrice} from "../../models/Routes/ObjPrice";
-import {Tariff} from "../../models/Routes/Tariff";
 import {PaySystem} from "../../models/Routes/PaySystem";
 import {ValidateService} from "../../services/ValidateService";
 import {WidgetError} from "../../models/WidgetError";
@@ -31,19 +28,15 @@ const alfaRu: PaySystem = {
 
 export function ContactsUser(props: ContactUserProps) {
 
-    const {checkError}= ValidateService();
+    const {checkError} = ValidateService();
 
     const [currency, setCurrency] = useState(getCurrency());
     const [paySystems, setPaySystems] = useState(getPaySystems());
-    const [hasEmailError, setHasEmailError] = useState(checkError(props.errors,"email"));
-    const [hasPhoneError, setHasPhoneError] = useState(checkError(props.errors,"phone"));
+    const [hasEmailError, setHasEmailError] = useState(false);
+    const [hasPhoneError, setHasPhoneError] = useState(false);
 
-    //for test
-    console.log(props.currencies);
-    console.log("PaymentSystems", props.paySystems);
 
     function getCurrency() {
-        //ToDo update for other Payment system
 
         return 1;
     }
@@ -63,9 +56,19 @@ export function ContactsUser(props: ContactUserProps) {
         return result ?? [alfaBy];
     }
 
+    useEffect(() => {
+        if (props.errors?.some(err => err.type === "email")) {
+            setHasEmailError(true);
+        }
+        if (props.errors?.some(err => err.type === "phone")) {
+            setHasPhoneError(true);
+        }
+    }, [props.errors]);
+
+
     return (
         <div className='intercars-contact-user-container'>
-            <h1>Контактные данные</h1>
+            <h2>Контактные данные</h2>
             {/*<h2 >*/}
             {/*    Контактные данныеasdf*/}
             {/*</h2>*/}
@@ -76,25 +79,24 @@ export function ContactsUser(props: ContactUserProps) {
             </div>
 
             <div className='intercars-contact-user-sub-container'>
-                {(props.errors && props.errors.some(ex => ex.type === "email")) ?
-                    <div className="intercars-error-msg">{props.errors.find(err => err.type === "email")?.message}</div> : <div>&nbsp;</div>}
-
-                {(props.errors && props.errors.some(ex => ex.type === "phone")) ?
-                    <div className="intercars-error-msg">{props.errors.find(err => err.type === "phone")?.message}</div> : <div>&nbsp;</div>}
-            </div>
-            <div className='intercars-contact-user-sub-container'>
 
                 <div className="intercars-contact-user-item">
-                    <InputText2 value={props.email} label={"Email"}
-                                setValue={(value: string) => {
-                                    if(hasEmailError){
-                                        props.updateErrors(props.errors.filter(err => err.type !== "email"));
-                                        setHasEmailError(false);
+                        <div className="error-msg">
+                            {hasEmailError
+                                ? props.errors?.find(err => err.type === "email")?.message
+                                : <> &nbsp;</>
+                            }
+                        </div>
+                        <InputText2 value={props.email} label={"Email"}
+                                    setValue={(value: string) => {
+                                        if (hasEmailError) {
+                                            props.updateErrors(props.errors.filter(err => err.type !== "email"));
+                                            setHasEmailError(false);
+                                        }
+                                        props.updateContactHandler(value, "email")
                                     }
-                                    props.updateContactHandler(value, "email")
-                                }
 
-                                }/>
+                                    }/>
                     {/*{props.emailError && <p style={{color: "red"}}>pr</p>}*/}
                     <div className="intercars-contact-user-select">
                         <select
@@ -125,9 +127,16 @@ export function ContactsUser(props: ContactUserProps) {
                     </div>
                 </div>
                 <div className="intercars-contact-user-item">
+                    <div className="error-msg">
+                        {hasPhoneError
+                            ? props.errors?.find(err => err.type === "phone")?.message
+                            : <> &nbsp;</>
+                        }
+                    </div>
                     <InputText2 value={props.phoneNumber1} label={"Номер телефона"}
                                 setValue={(value: string) => {
-                                    if(hasPhoneError){
+                                    if (hasPhoneError) {
+
                                         props.updateErrors(props.errors.filter(err => err.type !== "phone"));
                                         setHasPhoneError(false);
                                     }
@@ -140,7 +149,6 @@ export function ContactsUser(props: ContactUserProps) {
                                 }}
                     />
                 </div>
-
             </div>
 
             <div className='contacts-user-form__check'>

@@ -35,6 +35,10 @@
   flex-direction: column;
   width: 100%;
   gap:10px;
+  .error-msg{
+    color:red;
+  }
+
 }
 .intercars-contact-user-select{
   width: 100%;

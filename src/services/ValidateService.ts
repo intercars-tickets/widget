@@ -80,6 +80,8 @@ export function ValidateService() {
     const validateBookRequest = (request: BookTicketRequest): WidgetError[] => {
         let errors: WidgetError[] = []
 
+
+        console.log("ValidateServise Email",request.email)
         //Email
         if (request.email === "" || request.email === undefined) {
             errors.push({
