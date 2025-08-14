@@ -3,6 +3,7 @@ import {WidgetApi} from "../../api/WidgetApi";
 import "./style.scss";
 import {CreateTicketRequest} from "../../models/Booking/CreateTicketRequest";
 import {IntercarsPlace} from "../../models/Routes/IntercarsPlace";
+import {Loader} from "../../components/loader";
 
 
 enum CreateTicketStatus {
@@ -92,20 +93,19 @@ export function CreateTicket(props: CreateTicketProps) {
                 }
                 {componentStatus === CreateTicketStatus.Creating && (<>
                     <div className="intercars-create-ticket-sub-container">
-                        <div> Регистрация билетов в системе ...</div>
-                        <div>item number:{props.itemNumber}</div>
-                        <div>Loading</div>
-                        <div>Скачать билет</div>
-                        <div>Отправить на почту</div>
-                        <button onClick={() => {
-                            let location = window.location.origin;
-                            window.location.replace(location)
-                        }}>New Search
-                        </button>
+                        <div> Регистрация билетов в системе, пожалуйста дождитесь окончания регистрации!</div>
+
+                        <div className="intercars-redirect-info-horizontal-line"></div>
+
+
+                        <div> Registration of tickets in the system, please wait for the end of registration!</div>
+
+                        <div className="intercars-create-ticket-loader"><Loader/></div>
+
+
                     </div>
                     <div className="intercars-create-ticket-border"></div>
                     <div className="intercars-create-ticket-sub-container intercars-advertisment-block">
-                        htrkfvf
 
                     </div>
 
@@ -113,13 +113,20 @@ export function CreateTicket(props: CreateTicketProps) {
                 {componentStatus === CreateTicketStatus.Success && (<div className="intercars-create-ticket-item">
                     <div className="intercars-create-ticket-sub-container">
                         <div className="header">Спасибо за покупку на нашем сайте!</div>
-                        <div><p>&nbsp;&nbsp;В ближайшее время вы получите письмо с билетом на электронную почту, распечатайте его и приходите на посадку.</p></div>
-                        <div><p>&nbsp;&nbsp;Если Вы не получили письмо, свяжитесь с нами по телефонам +37529 643 70 22, +37529 872 37 55, 8017 395 45 91</p></div>
+                        <div><p>&nbsp;&nbsp;В ближайшее время вы получите письмо с билетом на электронную почту,
+                            распечатайте его и приходите на посадку.</p></div>
+                        <div><p>&nbsp;&nbsp;Если Вы не получили письмо, свяжитесь с нами по телефонам:</p><p> +37529 643
+                            70 22, +37529 872 37 55, 8017 395 45 91</p>
+
+
+                        </div>
                         <div></div>
-                        <div>&nbsp;&nbsp;Подписывайтесь на наши социальные сети и получите доступ к максимальным скидкам:</div>
-                        <button onClick={() => {
+                        <div>&nbsp;&nbsp;Подписывайтесь на наши социальные сети и получите доступ к максимальным
+                            скидкам:
+                        </div>
+                        <button className="intercars-create-ticket-button" onClick={() => {
                             window.location.replace("http://localhost:3000/whitelabel/example")
-                        }}>Neww Search
+                        }}>Новый поиск
                         </button>
                     </div>
                     <div className="intercars-create-ticket-border"></div>
@@ -127,10 +134,7 @@ export function CreateTicket(props: CreateTicketProps) {
                         <div className="header">Спасибо за покупку на нашем сайте!</div>
                         <div></div>
                         {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-                        {/* ToDo find link on picture*/}
-                        {/*<img src={require("../../img/moscov-img.png")} alt="picture"></img>*/}
-                        <img src={""} alt="picture"></img>
-
+                        <img src="https://kurs.intercars-tickets.com/documents/moskva-minsk%20(1).jpg" alt="picture"></img>
                     </div>
 
                 </div>)}

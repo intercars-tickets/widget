@@ -131,19 +131,6 @@ export function Widget() {
 
     return (
         <div className="intercars-widget-container">
-            {/*<BusIcon/>*/}
-            <button onClick={() => {
-                setActiveSection(WidgetSections.Book)
-            }}>Book
-            </button>
-            <button onClick={() => {
-                setActiveSection(WidgetSections.Search)
-            }}>Search
-            </button>
-            <button onClick={() => {
-                setActiveSection(WidgetSections.RedirectInfo)
-            }}>Search
-            </button>
 
             {activeSection === WidgetSections.Search && <p>Search </p>}
             {activeSection === WidgetSections.Search &&
@@ -156,14 +143,6 @@ export function Widget() {
                     //setCityFrom={setCityFrom}
                     departureDate={departureDate} setDepartureDate={setDepartureDate}
                     setError={updateErrorHandler}/>}
-            {/*{errors.dateFromError}*/}
-            {/*{errors.cityFromError !== undefined && <div>{errors.cityFromError}</div>}*/}
-            {/*{errors.cityToError !== undefined && <p>{errors.cityToError}</p>}*/}
-            {/*{errors &&errors["dateFromError"] && <p>{errors["cityFromError"]}</p>}*/}
-            {/*{errors && errors["cityToError"] && <p>{errors["cityToError"]}</p>}*/}
-
-            //
-            <div>FoundRoutes {foundRoutes.length}</div>
 
             {activeSection === WidgetSections.Search && foundRoutes && foundRoutes.length > 0 && foundRoutes.map(route => {
                 return (<RouteItem route={route} bookRoute={selectRouteHandler}/>)
@@ -181,7 +160,6 @@ export function Widget() {
             {/*<div style={{paddingTop:"16px"}}><RouteItem/></div>*/}
 
             {/*<button onClick={searchRoutesHandler}>Search</button>*/}
-            <RedirectInfo paymentUrl={""}/>
         </div>
 
 
